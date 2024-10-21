@@ -1,0 +1,20 @@
+name: dydx-bot
+
+services:
+  bot:
+    image: dydx-bot:latest
+    build: .
+    restart: always
+    volumes:
+      - bot-logs:/app/${LOG_DIR:-./logs}
+      - bot-plugins:/root/dydx-bot/plugins
+      - ${STRATEGIES_FILE_PATH:?}:/app/${STRATEGIES_FILE_PATH:?}
+    environment:
+      - LOG_DIR=${LOG_DIR:-./logs}
+      - LOG_FREQUENCY=${LOG_FREQUENCY:-3600000}
+      - STRATEGIES_FILE_PATH=${STRATEGIES_FILE_PATH:?}
+      - MNEMONIC=${MNEMONIC:?}
+
+volumes:
+  bot-logs:
+  bot-plugins:

@@ -1,4 +1,6 @@
+import { join } from 'path';
 import { pino } from 'pino';
+
 import config from './config.js';
 
 const logger = pino({
@@ -16,7 +18,7 @@ const logger = pino({
       {
         target: 'pino-roll',
         options: {
-          file: config.logFile,
+          file: join(config.logDir, 'log'),
           frequency: parseInt(config.logFrequency),
           mkdir: true,
         },

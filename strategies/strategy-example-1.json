@@ -4,17 +4,37 @@
     "platform": "dydx",
     "pair": "ETH-USD",
     "timeframe": "1MIN",
-    "planPlugin": "plan-example-1",
-    "executePlugin": "execute-example-1",
-    "managePlugin": "manage-example-1"
+    "type": "testnet",
+    "planPlugin": {
+      "name": "plan-example-1",
+      "url": "https://some-url.com/plan.js"
+    },
+    "executePlugin": {
+      "name": "execute-example-1",
+      "url": "https://some-url.com/execute.js"
+    },
+    "managePlugin": {
+      "name": "manage-example-1",
+      "url": "https://some-url.com/manage.js"
+    }
   },
   {
     "id": "strategy-example-2",
     "platform": "dydx",
     "pair": "BTC-USD",
     "timeframe": "5MINS",
-    "planPlugin": "plan-example-2",
-    "executePlugin": "execute-example-2",
-    "managePlugin": "manage-example-2"
+    "type": "testnet",
+    "planPlugin": {
+      "name": "plan-example-2",
+      "url": "https://some-url.com/plan.js"
+    },
+    "executePlugin": {
+      "name": "execute-example-2",
+      "url": "https://some-url.com/execute.js"
+    },
+    "managePlugin": {
+      "name": "manage-example-2",
+      "url": "https://some-url.com/manage.js"
+    }
   }
 ]

@@ -17,5 +17,5 @@ export async function fetchCandles(
 
   const data = await response.json();
 
-  return data;
+  return data.candles;
 }

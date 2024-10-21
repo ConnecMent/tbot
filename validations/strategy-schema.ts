@@ -15,7 +15,7 @@ export const strategySchema: Readonly<{
     ['1MIN', '5MINS', '15MINS', '30MINS', '1HOUR', '4HOURS', '1DAY'].includes(
       value,
     ),
-  planPlugin: (value: unknown): boolean => typeof value === 'string',
-  executePlugin: (value: unknown): boolean => typeof value === 'string',
-  managePlugin: (value: unknown): boolean => typeof value === 'string',
+  planPlugin: (value: unknown): boolean => typeof value === 'object',
+  executePlugin: (value: unknown): boolean => typeof value === 'object',
+  managePlugin: (value: unknown): boolean => typeof value === 'object',
 };
