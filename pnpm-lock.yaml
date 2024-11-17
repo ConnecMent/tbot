@@ -8,8 +8,8 @@ importers:
   .:
     dependencies:
       '@dydxprotocol/v4-client-js':
-        specifier: ^1.3.2
-        version: 1.3.2(@dydxprotocol/v4-proto@6.0.1)
+        specifier: ^1.13.0
+        version: 1.13.0
       '@types/download':
         specifier: ^8.0.5
         version: 8.0.5
@@ -134,18 +134,16 @@ packages:
         integrity: sha512-D1Yc+Zy8oL/hkUkFUL/bwxvuDBzRGpc4cF7/SkdhxX4iHpSLgdOuTt1mhCh9+kl6NQREy9t7SYZ6xeW5gFe60w==,
       }
 
-  '@dydxprotocol/v4-client-js@1.3.2':
+  '@dydxprotocol/v4-client-js@1.13.0':
     resolution:
       {
-        integrity: sha512-23u3GXy8plAoeneqxX9JWv/cBUDQbFdQjCXIQE11/hL+HZFwXWY7efrXOA4LO7LEbKdGionBtYTQAb5jIIkPcw==,
+        integrity: sha512-YHHL1CYkAbGfWVfv0fNapv+uBl1VZiVtz2IhtxtjWBoYvZtamA8V8pWef7Mt11I9hstPbdz9JQyj1pmNMDWkBQ==,
       }
-    peerDependencies:
-      '@dydxprotocol/v4-proto': 6.0.1
 
-  '@dydxprotocol/v4-proto@6.0.1':
+  '@dydxprotocol/v4-proto@7.0.0-dev.0':
     resolution:
       {
-        integrity: sha512-+L4mT8AM5MlrnT7a817uepSSKCpvMmE6LV5xQKnH18GxLs7JOv5nQTnONbmi6roz12R7Vi1CntRZuz7Lg6l5Sw==,
+        integrity: sha512-yQ3xMW8GmKCCwtzXF1E/TMYvPYDPRmAR2T/AFXKlE2YF/P/yQMrz/IySzX4Z+wyAMI+G4Sr+AML7V8ehvAcjog==,
       }
 
   '@esbuild/aix-ppc64@0.23.1':
@@ -2387,7 +2385,7 @@ snapshots:
 
   '@cosmjs/utils@0.32.4': {}
 
-  '@dydxprotocol/v4-client-js@1.3.2(@dydxprotocol/v4-proto@6.0.1)':
+  '@dydxprotocol/v4-client-js@1.13.0':
     dependencies:
       '@cosmjs/amino': 0.32.4
       '@cosmjs/encoding': 0.32.4
@@ -2396,7 +2394,7 @@ snapshots:
       '@cosmjs/stargate': 0.32.4
       '@cosmjs/tendermint-rpc': 0.32.4
       '@cosmjs/utils': 0.32.4
-      '@dydxprotocol/v4-proto': 6.0.1
+      '@dydxprotocol/v4-proto': 7.0.0-dev.0
       '@osmonauts/lcd': 0.6.0
       '@scure/bip32': 1.5.0
       '@scure/bip39': 1.4.0
@@ -2414,7 +2412,7 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@dydxprotocol/v4-proto@6.0.1':
+  '@dydxprotocol/v4-proto@7.0.0-dev.0':
     dependencies:
       protobufjs: 6.11.4
 

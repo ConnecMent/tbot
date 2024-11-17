@@ -1,8 +1,9 @@
-import { TimeFrame } from './common.js';
+import { TimeFrame, PluginConfig } from './common.js';
 
 export interface PluginInfo {
   name: string;
   url: string;
+  config: PluginConfig;
 }
 
 export interface Strategy {

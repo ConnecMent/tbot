@@ -1,8 +1,8 @@
 import createOrderService from '../order-service/order-service.js';
-import { Candle, PositionType } from './common.js';
+import { Candle, PositionType, PluginConfig } from './common.js';
 
 export interface PlanPlugin {
-  chooseSide(candles: Candle[]): PositionType;
+  chooseSide(candles: Candle[], config?: PluginConfig): PositionType;
 }
 
 export interface ExecutePlugin {
@@ -11,12 +11,14 @@ export interface ExecutePlugin {
     side: PositionType,
     pair: string,
     orderService: Awaited<ReturnType<typeof createOrderService>>,
+    config?: PluginConfig,
   ): Promise<void>;
 }
 
 export interface ManagePlugin {
   manage(
     orderService: Awaited<ReturnType<typeof createOrderService>>,
+    config?: PluginConfig,
   ): Promise<void>;
 }
 

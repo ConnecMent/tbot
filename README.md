@@ -46,7 +46,7 @@ A strategy in tbot consists of:
 - Type (testnet/mainnet)
 - Trading pair
 - Timeframe
-- Plugins information (name and URL for plan, execute, and manage plugins)
+- Plugins information (name, URL, and config for plan, execute, and manage plugins)
 
 These components together create a unique strategy. Multiple strategies with different pairs, timeframes, and plugins can be implemented.
 

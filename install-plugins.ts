@@ -3,11 +3,24 @@ import download from 'download';
 import fs from 'fs';
 import os from 'os';
 import { PluginInfo } from './types/strategy.js';
+import { PluginConfig } from './types/common.js';
 
-export async function installPlugins(
-  pluginsInfo: PluginInfo[],
-): Promise<Record<string, Plugin>> {
-  const plugins: Record<string, Plugin> = {};
+export async function installPlugins(pluginsInfo: PluginInfo[]): Promise<
+  Record<
+    string,
+    {
+      plugin: Plugin;
+      config?: PluginConfig;
+    }
+  >
+> {
+  const plugins: Record<
+    string,
+    {
+      plugin: Plugin;
+      config?: PluginConfig;
+    }
+  > = {};
 
   const saveDir = os.homedir() + '/dydx-bot/plugins';
 
@@ -30,7 +43,10 @@ export async function installPlugins(
         const fileContent = await import(`file://${filePath}`);
 
         const plugin: Plugin = fileContent.default as Plugin;
-        plugins[pluginInfo.name] = plugin;
+        plugins[pluginInfo.name] = {
+          plugin,
+          config: pluginInfo.config,
+        };
       } catch (e) {
         console.error('Failed to download plugin:', e);
       }
