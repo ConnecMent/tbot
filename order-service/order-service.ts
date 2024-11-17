@@ -16,6 +16,8 @@ import DefV4ClientJs, {
   OrderTimeInForce,
   Order_TimeInForce,
   OrderExecution,
+  TickerType,
+  OrderStatus,
 } from '@dydxprotocol/v4-client-js';
 
 const conditionalGoodTilTimeInSeconds = 2592000; // ~ 1 month
@@ -141,6 +143,17 @@ const createOrderService = async (mnemonic: string, network: Network) => {
         .then((res) => {
           return res.positions;
         });
+    },
+
+    listOpenOrders: async () => {
+      return indexerClient.account.getSubaccountOrders(
+        wallet.address || '',
+        subAccount.subaccountNumber,
+        undefined,
+        TickerType.PERPETUAL,
+        undefined,
+        OrderStatus.OPEN,
+      );
     },
   };
 };
