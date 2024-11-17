@@ -49,3 +49,5 @@ export interface OrderConfig {
  * https://github.com/ConnecMent/dydx-bot/issues/4
  */
 export type Order = any;
+
+export type PluginConfig = Record<string, unknown>;

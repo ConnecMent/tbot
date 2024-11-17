@@ -46,7 +46,7 @@ strategies.forEach(async (strategy) => {
     const executePlugin = plugins[strategy.executePlugin.name];
     const managePlugin = plugins[strategy.managePlugin.name];
 
-    const side = planPlugin.chooseSide?.(candles);
+    const side = planPlugin.plugin.chooseSide?.(candles, planPlugin.config);
     logger.info(`Plan plugin ran over fetched candles`);
     logger.info(`Plan plugin result: ${side}`);
 
@@ -55,11 +55,17 @@ strategies.forEach(async (strategy) => {
         'Running execute plugin because plan plugin result was not null',
       );
 
-      await executePlugin.execute?.(candles, side, strategy.pair, orderService);
+      await executePlugin.plugin.execute?.(
+        candles,
+        side,
+        strategy.pair,
+        orderService,
+        executePlugin.config,
+      );
       logger.info('Execute plugin ran based on plan');
     }
 
-    await managePlugin.manage?.(orderService);
+    await managePlugin.plugin.manage?.(orderService, managePlugin.config);
     logger.info('Manage plugin run');
 
     logger.info(`Strategy with id ${strategy.id} completed running`);
