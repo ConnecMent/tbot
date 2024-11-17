@@ -38,7 +38,11 @@
     },
     "managePlugin": {
       "name": "manage-example-2",
-      "url": "https://some-url.com/manage.js"
+      "url": "https://some-url.com/manage.js",
+      "config": {
+        "foo": 2,
+        "bar": "hello world"
+      }
     }
   }
 ]

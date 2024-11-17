@@ -29,6 +29,6 @@ export default {
     return '';
   },
   manage: async (_, config) => {
-    console.log(config.sayHello);
+    console.log(config.foo, config.bar);
   },
 };
