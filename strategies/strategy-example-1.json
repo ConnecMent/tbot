@@ -4,6 +4,7 @@
     "platform": "dydx",
     "pair": "ETH-USD",
     "timeframe": "1MIN",
+    "tickInterval": 30000,
     "type": "testnet",
     "planPlugin": {
       "name": "plan-example-1",
@@ -27,6 +28,7 @@
     "platform": "dydx",
     "pair": "BTC-USD",
     "timeframe": "5MINS",
+    "tickInterval": 90000,
     "type": "testnet",
     "planPlugin": {
       "name": "plan-example-2",
