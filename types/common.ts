@@ -51,3 +51,5 @@ export interface OrderConfig {
 export type Order = any;
 
 export type PluginConfig = Record<string, unknown>;
+
+export type Milliseconds = number;

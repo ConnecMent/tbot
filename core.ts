@@ -7,8 +7,6 @@ import logger from './log-service.js';
 import createOrderService from './order-service/order-service.js';
 import { fetchCandles } from './price/priceService.js';
 
-import { timeframeInMs } from './constants.js';
-
 logger.info('Starting bot');
 
 const strategies = await loadStrategies();
@@ -72,5 +70,5 @@ strategies.forEach(async (strategy) => {
   };
 
   runStrategy();
-  setInterval(runStrategy, timeframeInMs[strategy.timeframe]);
+  setInterval(runStrategy, strategy.tickInterval);
 });

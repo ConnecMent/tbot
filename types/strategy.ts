@@ -1,4 +1,4 @@
-import { TimeFrame, PluginConfig } from './common.js';
+import { TimeFrame, PluginConfig, Milliseconds } from './common.js';
 
 export interface PluginInfo {
   name: string;
@@ -16,6 +16,7 @@ export interface Strategy {
   type: 'testnet' | 'mainnet';
   pair: string;
   timeframe: TimeFrame;
+  tickInterval: Milliseconds;
   planPlugin: PluginInfo;
   executePlugin: PluginInfo;
   managePlugin: PluginInfo;
