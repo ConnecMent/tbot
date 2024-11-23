@@ -27,5 +27,6 @@
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"
-  }
+  },
+  "packageManager": "pnpm@9.14.1"
 }
