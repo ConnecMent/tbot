@@ -6,7 +6,7 @@ services:
     build: .
     restart: always
     volumes:
-      - bot-logs:/app/${LOG_DIR:-./logs}
+      - ./logs:/app/${LOG_DIR:-./logs}
       - bot-plugins:/root/dydx-bot/plugins
       - ${STRATEGIES_FILE_PATH:?}:/app/${STRATEGIES_FILE_PATH:?}
     environment:
@@ -16,5 +16,4 @@ services:
       - MNEMONIC=${MNEMONIC:?}
 
 volumes:
-  bot-logs:
   bot-plugins:
