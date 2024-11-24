@@ -1,4 +1,4 @@
-import { OrderExecution, OrderTimeInForce } from '@dydxprotocol/v4-client-js';
+import { OrderExecution } from '@dydxprotocol/v4-client-js';
 import {
   BroadcastTxAsyncResponse,
   BroadcastTxSyncResponse,
@@ -38,10 +38,11 @@ export type Position = {
   subaccountNumber: number;
 };
 
-export interface OrderConfig {
-  timeInForce?: OrderTimeInForce;
+export interface OrderConfig<TIF> {
+  timeInForce?: TIF;
   execution?: OrderExecution;
   postOnly?: boolean;
+  id?: Integer;
 }
 
 /**
@@ -53,3 +54,4 @@ export type Order = any;
 export type PluginConfig = Record<string, unknown>;
 
 export type Milliseconds = number;
+export type Integer = number;

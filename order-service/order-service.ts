@@ -18,6 +18,7 @@ import DefV4ClientJs, {
   OrderExecution,
   TickerType,
   OrderStatus,
+  SHORT_BLOCK_WINDOW,
 } from '@dydxprotocol/v4-client-js';
 
 const conditionalGoodTilTimeInSeconds = 2592000; // ~ 1 month
@@ -41,20 +42,17 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       side: PositionType,
       price: number,
       size: number,
-      config?: OrderConfig,
+      config?: Pick<OrderConfig<Order_TimeInForce>, 'timeInForce' | 'id'>,
     ): Promise<Tx> => {
-      return client.placeOrder(
+      return client.placeShortTermOrder(
         subAccount,
         pair,
-        OrderType.LIMIT,
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         price,
         size,
-        clientIdGen(),
-        config?.timeInForce,
-        limitGoodTilTimeInSeconds,
-        config?.execution,
-        config?.postOnly,
+        config?.id ?? clientIdGen(),
+        +(await indexerClient.utility.getHeight()).height + SHORT_BLOCK_WINDOW,
+        config?.timeInForce ?? Order_TimeInForce.TIME_IN_FORCE_IOC,
         false,
       );
     },
@@ -63,6 +61,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       pair: Pair,
       side: PositionType,
       size: number,
+      config: Pick<OrderConfig<Order_TimeInForce>, 'timeInForce' | 'id'>,
     ): Promise<Tx> => {
       return client.placeShortTermOrder(
         subAccount,
@@ -70,9 +69,9 @@ const createOrderService = async (mnemonic: string, network: Network) => {
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         side === 'long' ? 10_000_000 : Number.EPSILON,
         size,
-        clientIdGen(),
+        config.id ?? clientIdGen(),
         +(await indexerClient.utility.getHeight()).height + 20,
-        Order_TimeInForce.TIME_IN_FORCE_UNSPECIFIED,
+        config.timeInForce ?? Order_TimeInForce.TIME_IN_FORCE_UNSPECIFIED,
         false,
       );
     },
@@ -82,6 +81,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       side: PositionType,
       size: number,
       triggerPrice: number,
+      config: Omit<OrderConfig<OrderTimeInForce>, 'timeInForce'>,
     ): Promise<Tx> => {
       return client.placeOrder(
         subAccount,
@@ -90,11 +90,11 @@ const createOrderService = async (mnemonic: string, network: Network) => {
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         side === 'long' ? 10_000_000 : Number.EPSILON,
         size,
-        clientIdGen(),
+        config.id ?? clientIdGen(),
         OrderTimeInForce.GTT,
         conditionalGoodTilTimeInSeconds,
-        OrderExecution.IOC,
-        false,
+        config.execution ?? OrderExecution.IOC,
+        config.postOnly ?? false,
         true,
         triggerPrice,
       );
@@ -105,6 +105,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       side: PositionType,
       size: number,
       triggerPrice: number,
+      config: Omit<OrderConfig<OrderTimeInForce>, 'timeInForce'>,
     ): Promise<Tx> => {
       return client.placeOrder(
         subAccount,
@@ -113,11 +114,11 @@ const createOrderService = async (mnemonic: string, network: Network) => {
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         side === 'long' ? 10_000_000 : Number.EPSILON,
         size,
-        clientIdGen(),
+        config.id ?? clientIdGen(),
         OrderTimeInForce.GTT,
         conditionalGoodTilTimeInSeconds,
-        OrderExecution.IOC,
-        false,
+        config.execution ?? OrderExecution.IOC,
+        config.postOnly ?? false,
         true,
         triggerPrice,
       );
