@@ -31,10 +31,9 @@ export interface Candle {
 
 export type Tx = BroadcastTxAsyncResponse | BroadcastTxSyncResponse | IndexedTx;
 export type Position = {
-  symbol: string;
+  market: string;
   side: string;
   size: string;
-  assetId: string;
   subaccountNumber: number;
 };
 
