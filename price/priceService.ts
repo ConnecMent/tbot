@@ -1,21 +1,18 @@
-import { baseUrl } from './url.js';
+import { CompositeClient } from '@dydxprotocol/v4-client-js';
+
 import { Candle, TimeFrame, Pair } from '../types/common.js';
 
-export async function fetchCandles(
-  pair: Pair,
-  timeFrame: TimeFrame,
-): Promise<Candle[]> {
-  const response = await fetch(
-    `${baseUrl}/candles/perpetualMarkets/${pair}?resolution=${timeFrame}`,
-  );
+const createPriceService = async (compositeClient: CompositeClient) => {
+  return {
+    async fetchCandles(pair: Pair, timeFrame: TimeFrame): Promise<Candle[]> {
+      const marketCandlesResult =
+        await compositeClient.indexerClient.markets.getPerpetualMarketCandles(
+          pair,
+          timeFrame,
+        );
+      return marketCandlesResult.candles;
+    },
+  };
+};
 
-  if (!response.ok) {
-    throw new Error(
-      'Network response was not ok or maybe input not valid pair and timeFrame',
-    );
-  }
-
-  const data = await response.json();
-
-  return data.candles;
-}
+export default createPriceService;

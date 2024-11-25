@@ -9,9 +9,7 @@ import DefV4ClientJs, {
   OrderSide,
   OrderType,
   SubaccountClient,
-  Network,
   CompositeClient,
-  IndexerClient,
   BECH32_PREFIX,
   OrderTimeInForce,
   Order_TimeInForce,
@@ -22,16 +20,16 @@ import DefV4ClientJs, {
 } from '@dydxprotocol/v4-client-js';
 
 const conditionalGoodTilTimeInSeconds = 2592000; // ~ 1 month
-const limitGoodTilTimeInSeconds = 900; // ~ 15 minutes
 
-const createOrderService = async (mnemonic: string, network: Network) => {
+const createOrderService = async (
+  mnemonic: string,
+  compositeClient: CompositeClient,
+) => {
   const wallet = await DefV4ClientJs.LocalWallet.fromMnemonic(
     mnemonic,
     BECH32_PREFIX,
   );
   const subAccount = new SubaccountClient(wallet, 0);
-  const client = await CompositeClient.connect(network);
-  const indexerClient = new IndexerClient(network.indexerConfig);
   const clientIdGen = (): number => {
     return Date.now() * 1000 + Math.floor(Math.random() * 1000);
   };
@@ -44,14 +42,15 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       size: number,
       config?: Pick<OrderConfig<Order_TimeInForce>, 'timeInForce' | 'id'>,
     ): Promise<Tx> => {
-      return client.placeShortTermOrder(
+      return compositeClient.placeShortTermOrder(
         subAccount,
         pair,
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         price,
         size,
         config?.id ?? clientIdGen(),
-        +(await indexerClient.utility.getHeight()).height + SHORT_BLOCK_WINDOW,
+        +(await compositeClient.indexerClient.utility.getHeight()).height +
+          SHORT_BLOCK_WINDOW,
         config?.timeInForce ?? Order_TimeInForce.TIME_IN_FORCE_IOC,
         false,
       );
@@ -63,14 +62,14 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       size: number,
       config?: Pick<OrderConfig<Order_TimeInForce>, 'timeInForce' | 'id'>,
     ): Promise<Tx> => {
-      return client.placeShortTermOrder(
+      return compositeClient.placeShortTermOrder(
         subAccount,
         pair,
         side === 'long' ? OrderSide.BUY : OrderSide.SELL,
         side === 'long' ? 10_000_000 : Number.EPSILON,
         size,
         config?.id ?? clientIdGen(),
-        +(await indexerClient.utility.getHeight()).height + 20,
+        +(await compositeClient.indexerClient.utility.getHeight()).height + 20,
         config?.timeInForce ?? Order_TimeInForce.TIME_IN_FORCE_UNSPECIFIED,
         false,
       );
@@ -83,7 +82,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       triggerPrice: number,
       config?: Omit<OrderConfig<OrderTimeInForce>, 'timeInForce'>,
     ): Promise<Tx> => {
-      return client.placeOrder(
+      return compositeClient.placeOrder(
         subAccount,
         pair,
         OrderType.TAKE_PROFIT_MARKET,
@@ -107,7 +106,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
       triggerPrice: number,
       config?: Omit<OrderConfig<OrderTimeInForce>, 'timeInForce'>,
     ): Promise<Tx> => {
-      return client.placeOrder(
+      return compositeClient.placeOrder(
         subAccount,
         pair,
         OrderType.STOP_MARKET,
@@ -125,7 +124,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
     },
 
     listPositions: async (): Promise<Position[]> => {
-      return indexerClient.account
+      return compositeClient.indexerClient.account
         .getSubaccountPerpetualPositions(
           wallet.address || '',
           subAccount.subaccountNumber,
@@ -136,7 +135,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
     },
 
     listAssetPositions: async (): Promise<Position[]> => {
-      return indexerClient.account
+      return compositeClient.indexerClient.account
         .getSubaccountAssetPositions(
           wallet.address || '',
           subAccount.subaccountNumber,
@@ -147,7 +146,7 @@ const createOrderService = async (mnemonic: string, network: Network) => {
     },
 
     listOpenOrders: async () => {
-      return indexerClient.account.getSubaccountOrders(
+      return compositeClient.indexerClient.account.getSubaccountOrders(
         wallet.address || '',
         subAccount.subaccountNumber,
         undefined,
