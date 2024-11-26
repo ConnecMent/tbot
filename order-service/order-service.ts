@@ -155,6 +155,19 @@ const createOrderService = async (
         OrderStatus.OPEN,
       );
     },
+
+    listFills: async (pair?: string) => {
+      return compositeClient.indexerClient.account
+        .getSubaccountFills(
+          wallet.address || '',
+          subAccount.subaccountNumber,
+          pair,
+          TickerType.PERPETUAL,
+        )
+        .then((res) => {
+          return res.fills;
+        });
+    },
   };
 };
 
